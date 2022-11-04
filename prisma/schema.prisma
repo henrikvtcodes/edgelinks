@@ -31,4 +31,6 @@ model Link {
   enableSwr    Boolean      @default(false)
   // If enableSwr is true, this value the swr length, and if this value is null, the swr header will not have a time
   swrAge       Int?
+
+  @@index(slug)
 }
