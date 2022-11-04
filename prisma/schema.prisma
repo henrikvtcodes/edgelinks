@@ -3,15 +3,29 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/server/db/generated"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
 
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum RedirectType {
+  PERMANENT_308 @map("PermanentRedirect")
+  TEMPORARY_307 @map("TemporaryRedirect")
+}
+
+model Link {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  description String?
+
+  url  String
+  slug String @unique
+
+  redirectType RedirectType @default(TEMPORARY_307)
+  enableCache  Boolean      @default(false)
+  maxAge       Int          @default(0)
+  swr          Int          @default(0)
 }
