@@ -17,7 +17,8 @@
     "noUncheckedIndexedAccess": true,
     "baseUrl": "src",
     "paths": {
-      "@prismaGenerated": ["server/db/generated"]
+      "@prismaGenerated": ["server/db/generated"],
+      "@db": ["server/db/client"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"],

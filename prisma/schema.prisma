@@ -27,5 +27,8 @@ model Link {
   redirectType RedirectType @default(TEMPORARY_307)
   enableCache  Boolean      @default(false)
   maxAge       Int          @default(0)
-  swr          Int          @default(0)
+  // If enableSwr is false, no swr header will be sent
+  enableSwr    Boolean      @default(false)
+  // If enableSwr is true, this value the swr length, and if this value is null, the swr header will not have a time
+  swrAge       Int?
 }
