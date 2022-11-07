@@ -19,15 +19,26 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(req.nextUrl.origin);
   }
 
-  const cacheHeader = response.headers.get("Cache-Control");
+  const cacheHeader = response.headers.get("cache-control");
   const vercelCacheHeader = response.headers.get("x-vercel-cache");
 
+  // const allHeaders: { [key: string]: string } = {};
+  // response.headers.forEach((value, key) => {
+  //   allHeaders[key] = value;
+  // });
+
   const data: ShortlinkResponse = await response.json();
-  console.log({
-    fetchTime: `${endFetch - startFetch}ms`,
-    cacheHeader,
-    vercelCacheHeader,
-    headers: response.headers,
-  });
+  console.log(
+    JSON.stringify(
+      {
+        fetchTime: `${endFetch - startFetch}ms`,
+        cacheHeader,
+        vercelCacheHeader,
+        // headers: allHeaders,
+      },
+      null,
+      4
+    )
+  );
   return NextResponse.redirect(data.url);
 }

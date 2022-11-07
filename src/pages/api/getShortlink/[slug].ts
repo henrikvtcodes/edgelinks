@@ -31,10 +31,6 @@ export default async function handler(
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Access-Control-Allow-Origin", "*");
 
-  if (link.enableCache === false) {
-    res.setHeader("Cache-Control", "no-cache");
-  }
-
   let cacheHeader = `public, s-maxage=${link.maxAge}`;
 
   if (link.enableSwr) {
@@ -43,18 +39,29 @@ export default async function handler(
     }`;
   }
 
-  console.log({
-    slug: link.slug,
-    cache: link.enableCache
-      ? {
-          swr: link.enableSwr ? link.swrAge : false,
-          age: link.maxAge,
-          cacheHeader,
-        }
-      : false,
-  });
+  console.log(
+    JSON.stringify(
+      {
+        slug: link.slug,
+        enableCache: link.enableCache,
+        cache: link.enableCache
+          ? {
+              swr: link.enableSwr ? link.swrAge : false,
+              age: link.maxAge,
+              cacheHeader,
+            }
+          : cacheHeader,
+      },
+      null,
+      4
+    )
+  );
 
-  res.setHeader("Cache-Control", cacheHeader);
+  if (link.enableCache === false) {
+    res.setHeader("Cache-Control", "no-cache");
+  } else {
+    res.setHeader("Cache-Control", cacheHeader);
+  }
   res.status(200).json({ url: link.url, redirect: link.redirectType });
   return;
 }
