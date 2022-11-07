@@ -38,7 +38,7 @@ export class PlausibleTracker {
       props,
     });
 
-    console.log("Plausible event", body);
+    console.log("Plausible event", { xForwardedFor, url, body });
 
     if (process.env.NODE_ENV === "development") {
       return;
