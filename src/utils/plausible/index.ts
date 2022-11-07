@@ -38,8 +38,9 @@ export class PlausibleTracker {
       props,
     });
 
+    console.log("Plausible event", body);
+
     if (process.env.NODE_ENV === "development") {
-      console.log("Plausible event", body);
       return;
     }
 
@@ -55,7 +56,9 @@ export class PlausibleTracker {
 
     if (!res.ok) {
       throw new Error(
-        `Plausible API responded with status ${res.status}: ${res.statusText}`
+        `Plausible API responded with status ${res.status}: ${
+          res.statusText
+        } \n ${await res.text()}`
       );
     }
   }
