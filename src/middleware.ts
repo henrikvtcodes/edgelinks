@@ -1,16 +1,9 @@
-import {
-  type NextRequest,
-  type NextFetchEvent,
-  NextResponse,
-} from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 import type { ShortlinkResponse } from "./pages/api/getShortlink/[slug]";
 export const matcher = ["/((?!api|_next/static|favicon.ico).*)", "/:slug"];
 
-export default async function middleware(
-  req: NextRequest,
-  _event: NextFetchEvent
-) {
+export default async function middleware(req: NextRequest) {
   const slug = req.nextUrl.pathname.split("/").pop();
 
   if (!slug) {
@@ -26,7 +19,14 @@ export default async function middleware(
     return NextResponse.redirect(req.nextUrl.origin);
   }
 
+  const cacheHeader = response.headers.get("Cache-Control");
+  const vercelCacheHeader = response.headers.get("x-vercel-cache");
+
   const data: ShortlinkResponse = await response.json();
-  console.log({ fetchTime: `${endFetch - startFetch}ms` });
+  console.log({
+    fetchTime: `${endFetch - startFetch}ms`,
+    cacheHeader,
+    vercelCacheHeader,
+  });
   return NextResponse.redirect(data.url);
 }
