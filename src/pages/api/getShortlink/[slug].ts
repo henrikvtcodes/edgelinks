@@ -43,6 +43,17 @@ export default async function handler(
     }`;
   }
 
+  console.log({
+    slug: link.slug,
+    cache: link.enableCache
+      ? {
+          swr: link.enableSwr ? link.swrAge : false,
+          age: link.maxAge,
+          cacheHeader,
+        }
+      : false,
+  });
+
   res.setHeader("Cache-Control", cacheHeader);
   res.status(200).json({ url: link.url, redirect: link.redirectType });
   return;
