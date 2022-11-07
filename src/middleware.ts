@@ -27,6 +27,7 @@ export default async function middleware(req: NextRequest) {
     fetchTime: `${endFetch - startFetch}ms`,
     cacheHeader,
     vercelCacheHeader,
+    headers: response.headers,
   });
   return NextResponse.redirect(data.url);
 }
