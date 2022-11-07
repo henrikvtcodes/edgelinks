@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "@db";
-import { RedirectType } from "@prismaGenerated";
+import type { RedirectType } from "@prismaGenerated";
 
 export type ShortlinkResponse = {
   url: string;
