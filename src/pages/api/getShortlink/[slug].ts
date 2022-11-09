@@ -24,6 +24,7 @@ export default async function handler(
   });
 
   if (!link) {
+    console.error(`Link not found for slug ${slug}`);
     res.status(404).json({ error: "Link not found" });
     return;
   }

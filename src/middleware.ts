@@ -15,7 +15,7 @@ export default async function middleware(req: NextRequest) {
   );
   const endFetch = Date.now();
   if (!response.ok) {
-    return NextResponse.redirect(req.nextUrl.origin);
+    return NextResponse.next();
   }
 
   const cacheHeader = response.headers.get("cache-control");
