@@ -38,4 +38,4 @@ export default async function middleware(req: NextRequest) {
   return NextResponse.redirect(data.url);
 }
 
-export const matcher = ["/((?!api|_next/static|favicon.ico).*)"];
+export const matcher = ["/:slug"];
