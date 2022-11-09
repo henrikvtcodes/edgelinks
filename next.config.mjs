@@ -5,13 +5,25 @@
  */
 !process.env.SKIP_ENV_VALIDATION && (await import("./src/env/server.mjs"));
 
-/** @type {import("next").NextConfig} */
-const config = {
+import { withPlausibleProxy } from "next-plausible";
+import { withAxiom } from "next-axiom";
+
+const plausibleProxy = withPlausibleProxy({
+  subdirectory: "beep",
+  scriptName: "boop",
+  customDomain: "https://plausible.henriktech.com",
+});
+
+/**
+ * @template {import('next').NextConfig} T
+ * @param {T} config - A generic parameter that flows through to the return type
+ * @constraint {{import('next').NextConfig}}
+ */
+function defineNextConfig(config) {
+  return withAxiom(plausibleProxy(config));
+}
+
+export default defineNextConfig({
   reactStrictMode: true,
   swcMinify: true,
-  i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
-  },
-};
-export default config;
+});

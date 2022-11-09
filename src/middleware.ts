@@ -1,7 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
 import type { ShortlinkResponse } from "./pages/api/getShortlink/[slug]";
-export const matcher = ["/((?!api|_next/static|favicon.ico).*)", "/:slug"];
 
 export default async function middleware(req: NextRequest) {
   const slug = req.nextUrl.pathname.split("/").pop();
@@ -38,3 +37,5 @@ export default async function middleware(req: NextRequest) {
 
   return NextResponse.redirect(data.url);
 }
+
+export const matcher = ["/((?!api|_next/static|favicon.ico).*)", "/:slug"];
